@@ -9,7 +9,7 @@ class Inscriptio extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const appTitle = 'INSCRIPTION';
- 
+
     return const MaterialApp(
       title: appTitle,
       home: Scaffold(
@@ -44,6 +44,14 @@ class MyCustomFormState extends State<MyCustomForm> {
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
+    List<String>  erreur = [];
+    void showMyAlertDialog(BuildContext context) {
+      AlertDialog dialog = AlertDialog(
+        title: const Text("Erreur"),
+        content: Text(erreur[0]),
+      );
+    }
+
     return Container(
       height: height,
       decoration: const BoxDecoration(
@@ -64,10 +72,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                   //Navigator.pop(context);
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => const connexion(
-                              title: 'connexion',
-                            )),
+                    MaterialPageRoute(builder: (context) => const MyApp()),
                   );
                 },
                 child: const Icon(
@@ -93,7 +98,7 @@ class MyCustomFormState extends State<MyCustomForm> {
               color: Color.fromARGB(255, 1, 25, 77),
               borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
             ),
-            child: ListView(
+            child: Column(
               children: [
                 Container(
                   margin: const EdgeInsets.only(bottom: 15),
@@ -161,11 +166,12 @@ class MyCustomFormState extends State<MyCustomForm> {
                                     decoration: const InputDecoration(
                                       border: OutlineInputBorder(),
                                       hintText: 'Nom',
-                                      label: Text('Nom'),
                                     ),
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
-                                        return 'Entrez une valeur';
+                                        erreur.add(
+                                            "Entrez une valeur dans le champ nom");
+                                        return;
                                       }
                                       return null;
                                     },
@@ -181,16 +187,18 @@ class MyCustomFormState extends State<MyCustomForm> {
                                     decoration: const InputDecoration(
                                       border: OutlineInputBorder(),
                                       hintText: 'Email',
-                                      label: Text('Email'),
                                     ),
                                     validator: (value) {
                                       EmailValidator.validate(value!);
 
                                       if (value == null || value.isEmpty) {
-                                        return 'Entrez une valeur';
+                                        erreur.add(
+                                            "Entrez une valeur dans le champ email");
+                                        return;
                                       }
                                       if (!EmailValidator.validate(value)) {
-                                        return 'Email invalide';
+                                        erreur.add("Entrez un email valide");
+                                        return;
                                       }
                                       return null;
                                     },
@@ -205,29 +213,40 @@ class MyCustomFormState extends State<MyCustomForm> {
                                   decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     hintText: 'Mot de passe',
-                                    label: Text('Mot de passe'),
                                   ),
                                   validator: (value) {
                                     EmailValidator.validate(value!);
                                     if (value == null || value.isEmpty) {
-                                      return 'Entrez une valeur';
+                                      erreur.add(
+                                          "Entrez une valeur  dans le champ mot  de passe");
+                                      return;
                                     }
 
                                     if (value.length < 6) {
-                                      return 'Mot de pass trop court';
+                                      erreur.add(
+                                          "Entrez un mote de passe d'au moins 6 caractères");
+                                      return;
                                     }
                                     if (value.length >= 25) {
-                                      return 'Mot de pass trop long';
+                                      erreur.add(
+                                          "Entrez un mot de passe de moins de 25 caractères");
+                                      return;
                                     }
-                                    if (!value.contains(new RegExp(r'[A-Z]'))) {
-                                      return "Le mot de passe doit contenir au moins une majuscule";
+                                    if (!value.contains(RegExp(r'[A-Z]'))) {
+                                      erreur.add(
+                                          "Entrez un mot de passe contenant au moins une majuscule");
+                                      //return "Le mot de passe doit contenir au moins une majuscule";
                                     }
-                                    if (!value.contains(new RegExp(r'[0-9]'))) {
-                                      return "Le mot de passe doit contenir au moins un chiffre";
+                                    if (!value.contains(RegExp(r'[0-9]'))) {
+                                      erreur.add(
+                                          "Entrez un mot de passe contenant au moins un chiffre");
+                                      //return "Le mot de passe doit contenir au moins un chiffre";
                                     }
                                     if (!value.contains(
                                         RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
-                                      return "Le mot de passe doit contenir au moins un caractère spécial";
+                                      erreur.add(
+                                          "Entrez un mot de passe contenant au moins un caractère spécial");
+                                      //return "Le mot de passe doit contenir au moins un caractère spécial";
                                     }
                                     return null;
                                   },
@@ -247,13 +266,17 @@ class MyCustomFormState extends State<MyCustomForm> {
                                           vertical: 10.0),
                                     ),
                                     onPressed: () {
-                                      if (_formKey.currentState!.validate()) {
+                                      // if (_formKey.currentState!.validate()) {
+                                      if (erreur.isEmpty) {
+                                        print(erreur);
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
                                                   const inscription_v()),
                                         );
+                                      } else {
+                                        showMyAlertDialog(context);
                                       }
                                     },
                                     child: const Text(
@@ -318,7 +341,6 @@ class MyCustomFormState extends State<MyCustomForm> {
                   ),
                 )
               ],
-              scrollDirection: Axis.vertical,
             ),
           )
         ],
