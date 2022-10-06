@@ -9,7 +9,7 @@ class Inscriptio extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const appTitle = 'INSCRIPTION';
-
+ 
     return const MaterialApp(
       title: appTitle,
       home: Scaffold(
