@@ -1,97 +1,107 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 
 class inscription_v extends StatelessWidget {
-  const inscription_v({Key? key}) : super(key: key);
+  const inscription_v({Key? key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'Validation',
-      home: validation(),
-    );
-  }
-}
-
-class validation extends StatefulWidget {
-  const validation({super.key});
-
-  @override
-  State<validation> createState() => _validationState();
-}
-
-class _validationState extends State<validation> {
-  @override
-  Widget build(BuildContext context) {
-    return ListView(
-      scrollDirection: Axis.vertical ,
-      children: [
-        Row(
-          children: [
-            ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.transparent,
-              foregroundColor: Colors.black,
-              padding: const EdgeInsets.all(0.0),
-            ),
-            onPressed: () {
-              //Navigator.pop(context);
-              Navigator.pop(context);
-            },
-            child: const Icon(
-              Icons.arrow_back,
-            ),
-          ),
-            const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 40),
-            child: Text(
-                'Verication du code OTP',
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.black,
-                  decoration: TextDecoration.none
+    const appTitle = 'Form Styling Demo';
+    return MaterialApp(
+      title: appTitle,
+      home: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Color.fromARGB(255, 191, 104, 12),
+          title: Row(
+            //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.transparent,
+                  foregroundColor: Colors.black,
+                  padding: const EdgeInsets.only(right: 10),
+                  shadowColor: Colors.transparent
+                ),
+                onPressed: () {
+                  //Navigator.pop(context);
+                  Navigator.pop(context);
+                },
+                child: const Icon(
+                  Icons.arrow_back,
                 ),
               ),
-           )
-          ],
-        ),
-        Container(
-          padding: const EdgeInsets.symmetric(vertical: 25),
-          child: Column(
-            
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children:  [
-             Text(
-                  'Le code est envoye au  C*****@gmail.com',
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 0),
+                child: Text(
+                  'Verication du code OTP',
                   style: TextStyle(
-                    color: Colors.black,
-                    decoration: TextDecoration.none,
-                    fontSize: 18
-                  ),
+                      fontSize: 20,
+                      color: Colors.black,
+                      decoration: TextDecoration.none),
                 ),
-                 Text(
-                  'Renvoyer le code dans 45 s',
-                  style: TextStyle(
-                  
-                    color: Colors.black,
-                    decoration: TextDecoration.none,
-                    fontSize: 18
-                  ),
-                ),    
-                 ElevatedButton.icon(
-              onPressed: () {},
-              label: const Text('Plus One'),
-              icon: const Icon(Icons.plus_one),
-            )
-          ],
-        )
-      ,
-        )
-      ],
-
+              )
+            ],
+          ),
+        ),
+        body: const MyCustomForm(),
+      ),
     );
   }
 }
 
+class MyCustomForm extends StatelessWidget {
+  const MyCustomForm({Key? key});
 
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+         const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 25),
+          child: Text('Le code est envoye au m****@gmail.com', style: TextStyle(fontSize: 18),),
+        ),
+        
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
+          child: TextFormField(
+            decoration: const InputDecoration(
+              border: UnderlineInputBorder(),
+              labelText: 'Entrez le code',
+            ),
+          ),
+        ),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 25),
+          child: Text('Renvoyer le code dans 45 s', style: TextStyle(fontSize: 18)),
+        ),
+        Container(
+          width: 1000,
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
+          decoration: const BoxDecoration(
+              // borderRadius: Border.symmetric(),
+              ),
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              primary: const Color.fromARGB(
+                  255, 191, 104, 12),
+              padding: const EdgeInsets.symmetric(
+                  vertical: 10.0),
+            ),
+            onPressed: () {},
+            child: const Text(
+              'Creer',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.normal,
+                decoration: TextDecoration.none,
+              ),
+            ),
+          )
+        ),
+                              
+      ],
+    );
+  }
+}

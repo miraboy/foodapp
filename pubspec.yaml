@@ -39,6 +39,9 @@ dependencies:
   url_launcher: ^6.1.6
   font_awesome_flutter: '>= 4.7.0'
   email_validator: '^2.1.16'
+  firebase_auth: ^3.11.2
+  cloud_firestore: ^3.5.1
+  firebase_storage: ^10.3.11
   
 dev_dependencies:
   flutter_test:

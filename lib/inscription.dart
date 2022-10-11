@@ -5,7 +5,7 @@ import 'package:email_validator/email_validator.dart';
 import 'inscription_v.dart';
 
 class Inscriptio extends StatelessWidget {
-  const Inscriptio({super.key, required String title});
+  const Inscriptio({Key? key, required String title});
   @override
   Widget build(BuildContext context) {
     const appTitle = 'INSCRIPTION';
@@ -23,7 +23,7 @@ class Inscriptio extends StatelessWidget {
 
 // Create a Form widget.
 class MyCustomForm extends StatefulWidget {
-  const MyCustomForm({super.key, required String title});
+  const MyCustomForm({Key? key, required String title});
 
   @override
   MyCustomFormState createState() {
@@ -44,7 +44,7 @@ class MyCustomFormState extends State<MyCustomForm> {
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
-    List<String>  erreur = [];
+    List<String> erreur = [];
     void showMyAlertDialog(BuildContext context) {
       AlertDialog dialog = AlertDialog(
         title: const Text("Erreur"),
@@ -67,7 +67,8 @@ class MyCustomFormState extends State<MyCustomForm> {
                   backgroundColor: Colors.transparent,
                   foregroundColor: Colors.black,
                   padding: const EdgeInsets.all(0.0),
-                ),
+                  shadowColor: Colors.transparent
+                  ),
                 onPressed: () {
                   //Navigator.pop(context);
                   Navigator.push(

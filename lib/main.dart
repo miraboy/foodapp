@@ -7,7 +7,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key});
 
   // This widget is the root of your application.
   @override
@@ -16,13 +16,12 @@ class MyApp extends StatelessWidget {
       title: 'FOODAPP',
       debugShowCheckedModeBanner: false,
       home: MyHomePage(title: 'home'),
-
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required title});
+  const MyHomePage({Key? key, required title});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -43,13 +42,13 @@ class _MyHomePageState extends State<MyHomePage> {
     double height = MediaQuery.of(context).size.height;
     double height05 = height * 0.4967;
     return Container(
-        width: double.infinity,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage("images/eat.png"), fit: BoxFit.cover),
-        ),
-        child: SingleChildScrollView(
-          child: Column(
+      width: double.infinity,
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+            image: AssetImage("images/eat.png"), fit: BoxFit.cover),
+      ),
+      child: SingleChildScrollView(
+        child: Column(
           children: [
             Container(
                 decoration: const BoxDecoration(
@@ -64,15 +63,14 @@ class _MyHomePageState extends State<MyHomePage> {
                       Column(
                         children: [
                           Container(
-                            padding: const EdgeInsets.only(
-                              top: 10,
-                            ),
-                            width: 70,
-                            child: const Image(
-                              image: AssetImage('images/plat_icon.png'),
-                              fit: BoxFit.fill,
-                            )
-                          ),
+                              padding: const EdgeInsets.only(
+                                top: 10,
+                              ),
+                              width: 70,
+                              child: const Image(
+                                image: AssetImage('images/plat_icon.png'),
+                                fit: BoxFit.fill,
+                              )),
                           const Text(
                             "Votre plat est là !!!",
                             style: TextStyle(
@@ -108,7 +106,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                 Text(
                                   "FoodBenin",
                                   style: TextStyle(
-                                    color: const Color.fromARGB(255, 191, 104, 12),
+                                    color:
+                                        const Color.fromARGB(255, 191, 104, 12),
                                     fontSize: 22,
                                     fontWeight: FontWeight.bold,
                                     decoration: TextDecoration.none,
@@ -124,7 +123,10 @@ class _MyHomePageState extends State<MyHomePage> {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const Inscriptio(title: 'INSCRIPTION',)),
+                            MaterialPageRoute(
+                                builder: (context) => const Inscriptio(
+                                      title: 'INSCRIPTION',
+                                    )),
                           );
                         },
                         child: const Text('Créer un compte',
@@ -152,14 +154,18 @@ class _MyHomePageState extends State<MyHomePage> {
                               onTap: () {
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => const connexion(title: 'connexion',)),
+                                  MaterialPageRoute(
+                                      builder: (context) => const connexion(
+                                            title: 'connexion',
+                                          )),
                                 );
                               },
                               child: Container(
                                 child: const Text(
                                   'Se connecter ici',
                                   style: TextStyle(
-                                    color: const Color.fromARGB(255, 191, 104, 12),
+                                    color:
+                                        const Color.fromARGB(255, 191, 104, 12),
                                     fontSize: 16,
                                     fontWeight: FontWeight.normal,
                                     decoration: TextDecoration.none,
@@ -172,13 +178,11 @@ class _MyHomePageState extends State<MyHomePage> {
                       )
                     ],
                   ),
-                )
-              )
+                ))
           ],
         ),
-        ),
-        );
-  
+      ),
+    );
   }
 }
 //------
