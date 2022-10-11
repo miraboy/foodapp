@@ -1,41 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:email_validator/email_validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:json_annotation/json_annotation.dart';
+import 'package:provider/provider.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 import 'connexion.dart';
 import 'main.dart';
-import 'package:email_validator/email_validator.dart';
 import 'inscription_v.dart';
 
 class Inscriptio extends StatelessWidget {
-  const Inscriptio({Key? key, required String title});
+  const Inscriptio({super.key, required this.title});
+  final String title;
+
   @override
   Widget build(BuildContext context) {
-    const appTitle = 'INSCRIPTION';
+    final bar = AppBar(
+      backgroundColor: Color.fromARGB(255, 191, 104, 12),
+      shadowColor: Colors.transparent,
+      title: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.transparent,
+            foregroundColor: Colors.black,
+            padding: const EdgeInsets.all(0.0),
+            shadowColor: Colors.transparent),
+        onPressed: () {
+          //Navigator.pop(context);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const MyApp()),
+          );
+        },
+        child: const Icon(
+          Icons.arrow_back,
+        ),
+      ),
+    );
 
     return MaterialApp(
-      title: appTitle,
+      title: title,
       home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Color.fromARGB(255, 191, 104, 12),
-          shadowColor: Colors.transparent,
-          title: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.transparent,
-                foregroundColor: Colors.black,
-                padding: const EdgeInsets.all(0.0),
-                shadowColor: Colors.transparent),
-            onPressed: () {
-              //Navigator.pop(context);
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const MyApp()),
-              );
-            },
-            child: const Icon(
-              Icons.arrow_back,
-            ),
-          ),
-        ),
+        appBar: bar,
         body: MyCustomForm(
-          title: 'home',
+          title: title,
         ),
       ),
     );
@@ -56,6 +64,8 @@ class MyCustomForm extends StatefulWidget {
 // This class holds data related to the form.
 class MyCustomFormState extends State<MyCustomForm> {
   final _formKey = GlobalKey<FormState>();
+  FirebaseAuth auth = FirebaseAuth.instance;
+  late User currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -127,7 +137,7 @@ class MyCustomFormState extends State<MyCustomForm> {
             if (value == null || value.isEmpty) {
               return "Entrez une valeur dans le champ nom";
             }
-            data.add(value!);
+            data.add(value);
             return null;
           },
         ),
@@ -206,11 +216,24 @@ class MyCustomFormState extends State<MyCustomForm> {
           ),
           onPressed: () {
             if (_formKey.currentState!.validate()) {
-              print(data);
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const inscription_v()),
-              );
+              // auth.authStateChanges().listen((User? user) {
+              //   if (user == null) {
+              //     print("N'est pas connecte!");
+              //   } else {
+              //     print('User is signed in!');
+              //   }
+              // });
+              auth.idTokenChanges().listen((User? user) {
+                if (user == null) {
+                  print('User is currently signed out!');
+                } else {
+                  print('User is signed in!');
+                }
+              });
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(builder: (context) => const inscription_v()),
+              // );
             }
           },
           child: const Text(
