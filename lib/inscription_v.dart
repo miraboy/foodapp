@@ -5,7 +5,7 @@ class inscription_v extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const appTitle = 'Form Styling Demo';
+    const appTitle = 'Creer un compte';
     return MaterialApp(
       title: appTitle,
       home: Scaffold(

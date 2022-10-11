@@ -10,9 +10,30 @@ class Inscriptio extends StatelessWidget {
   Widget build(BuildContext context) {
     const appTitle = 'INSCRIPTION';
 
-    return const MaterialApp(
+    return MaterialApp(
       title: appTitle,
       home: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Color.fromARGB(255, 191, 104, 12),
+          shadowColor: Colors.transparent,
+          title: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.transparent,
+                foregroundColor: Colors.black,
+                padding: const EdgeInsets.all(0.0),
+                shadowColor: Colors.transparent),
+            onPressed: () {
+              //Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const MyApp()),
+              );
+            },
+            child: const Icon(
+              Icons.arrow_back,
+            ),
+          ),
+        ),
         body: MyCustomForm(
           title: 'home',
         ),
@@ -34,317 +55,278 @@ class MyCustomForm extends StatefulWidget {
 // Create a corresponding State class.
 // This class holds data related to the form.
 class MyCustomFormState extends State<MyCustomForm> {
-  // Create a global key that uniquely identifies the Form widget
-  // and allows validation of the form.
-  //
-  // Note: This is a GlobalKey<FormState>,
-  // not a GlobalKey<MyCustomFormState>.
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
-    List<String> erreur = [];
-    void showMyAlertDialog(BuildContext context) {
-      AlertDialog dialog = AlertDialog(
-        title: const Text("Erreur"),
-        content: Text(erreur[0]),
-      );
-    }
+    List<String> data = [];
+
+    final avatar = Container(
+      margin: const EdgeInsets.only(bottom: 10),
+      width: 150,
+      height: 150,
+      decoration: BoxDecoration(
+          color: Colors.black,
+          borderRadius: BorderRadius.circular(150),
+          image: const DecorationImage(
+              image: AssetImage("images/a.jpg"), fit: BoxFit.cover)),
+    );
+
+    final text_title = Container(
+      margin: const EdgeInsets.only(bottom: 15),
+      child: const Center(
+        child: Text(
+          'Creer un compte',
+          style: TextStyle(
+              color: Colors.white,
+              fontSize: 22,
+              decoration: TextDecoration.none),
+        ),
+      ),
+    );
+
+    final icon_groupe = Container(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      margin: const EdgeInsets.symmetric(vertical: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            width: 30,
+            height: 30,
+            margin: const EdgeInsets.symmetric(horizontal: 10),
+            child: const Image(
+                image: AssetImage(
+              'images/google.png',
+            )),
+          ),
+          Container(
+            width: 30,
+            height: 30,
+            margin: const EdgeInsets.symmetric(horizontal: 10),
+            child: const Image(
+                image: AssetImage(
+              'images/facebook.png',
+            )),
+          )
+        ],
+      ),
+    );
+
+    final champ_nom = Container(
+      margin: const EdgeInsets.symmetric(vertical: 2),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 3),
+        child: TextFormField(
+          decoration: const InputDecoration(
+            border: OutlineInputBorder(),
+            hintText: 'Nom',
+          ),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return "Entrez une valeur dans le champ nom";
+            }
+            data.add(value!);
+            return null;
+          },
+        ),
+      ),
+    );
+
+    final champ_email = Container(
+      margin: const EdgeInsets.symmetric(vertical: 2),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 3),
+        child: TextFormField(
+          decoration: const InputDecoration(
+            border: OutlineInputBorder(),
+            hintText: 'Email',
+          ),
+          validator: (value) {
+            EmailValidator.validate(value!);
+
+            if (value == null || value.isEmpty) {
+              return "Entrez une valeur dans le champ email";
+            } else if (!EmailValidator.validate(value)) {
+              return "Entrez un email valide";
+            }
+            data.add(value!);
+            return null;
+          },
+        ),
+      ),
+    );
+
+    final champ_mdp = Padding(
+      padding: const EdgeInsets.symmetric(vertical: 5),
+      child: TextFormField(
+        obscureText: true,
+        decoration: const InputDecoration(
+          border: OutlineInputBorder(),
+          hintText: 'Mot de passe',
+        ),
+        validator: (value) {
+          EmailValidator.validate(value!);
+          if (value == null || value.isEmpty) {
+            //erreur.add("Entrez une valeur  dans le champ mot  de passe");
+            return "Entrez une valeur  dans le champ mot  de passe";
+          } else if (value.length < 6) {
+            //erreur.add("Entrez un mote de passe d'au moins 6 caractères");
+            return "Entrez un mote de passe d'au moins 6 caractères";
+          } else if (value.length >= 25) {
+            //erreur.add("Entrez un mot de passe de moins de 25 caractères");
+            return "Entrez un mot de passe de moins de 25 caractères";
+          } else if (!value.contains(RegExp(r'[A-Z]'))) {
+            //erreur.add("Entrez un mot de passe contenant au moins une majuscule");
+            return "Le mot de passe doit contenir au moins une majuscule";
+          } else if (!value.contains(RegExp(r'[0-9]'))) {
+            //erreur.add("Entrez un mot de passe contenant au moins un chiffre");
+            return "Le mot de passe doit contenir au moins un chiffre";
+          } else if (!value.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
+            //erreur.add("Entrez un mot de passe contenant au moins un caractère spécial");
+            return "Le mot de passe doit contenir au moins un caractère spécial";
+          }
+          data.add(value!);
+          return null;
+        },
+      ),
+    );
+
+    final bouton_creer = Container(
+        width: 1000,
+        margin: const EdgeInsets.all(10),
+        decoration: const BoxDecoration(
+            // borderRadius: Border.symmetric(),
+            ),
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            primary: const Color.fromARGB(255, 191, 104, 12),
+            padding: const EdgeInsets.symmetric(vertical: 10.0),
+          ),
+          onPressed: () {
+            if (_formKey.currentState!.validate()) {
+              print(data);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const inscription_v()),
+              );
+            }
+          },
+          child: const Text(
+            'Creer',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+              fontWeight: FontWeight.normal,
+              decoration: TextDecoration.none,
+            ),
+          ),
+        ));
+
+    final text_lien = Padding(
+      padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Text("J'ai un compte. ",
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
+                  decoration: TextDecoration.none)),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const connexion(
+                          title: 'connexion',
+                        )),
+              );
+            },
+            child: const Text(
+              "Se Connecter",
+              style: TextStyle(
+                color: Color.fromARGB(255, 191, 104, 12),
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                decoration: TextDecoration.none,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+
+    final logo = Container(
+        padding: const EdgeInsets.all(15),
+        width: 75,
+        child: const Image(
+          image: AssetImage('images/plat_icon.png'),
+          fit: BoxFit.fill,
+        ));
+
+    final formulaire = Form(
+      key: _formKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          champ_nom,
+          champ_email,
+          champ_mdp,
+          bouton_creer,
+          text_lien,
+          logo
+        ],
+      ),
+    );
+
+    final box_white = Container(
+      width: 10000,
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+      ),
+      child: Column(
+        children: [
+          icon_groupe,
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 30.0),
+            child: formulaire,
+          )
+        ],
+      ),
+    );
+
+    final box_blue = Container(
+      padding: const EdgeInsets.only(top: 17),
+      width: 10000,
+      decoration: const BoxDecoration(
+        color: Color.fromARGB(255, 1, 25, 77),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+      ),
+      child: Column(
+        children: [
+          text_title,
+          box_white,
+        ],
+      ),
+    );
 
     return Container(
       height: height,
       decoration: const BoxDecoration(
         color: Color.fromARGB(255, 191, 104, 12),
       ),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.transparent,
-                  foregroundColor: Colors.black,
-                  padding: const EdgeInsets.all(0.0),
-                  shadowColor: Colors.transparent
-                  ),
-                onPressed: () {
-                  //Navigator.pop(context);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const MyApp()),
-                  );
-                },
-                child: const Icon(
-                  Icons.arrow_back,
-                ),
-              ),
-            ],
-          ),
-          Container(
-            margin: const EdgeInsets.symmetric(vertical: 20),
-            width: 150,
-            height: 150,
-            decoration: BoxDecoration(
-                color: Colors.black,
-                borderRadius: BorderRadius.circular(150),
-                image: const DecorationImage(
-                    image: AssetImage("images/a.jpg"), fit: BoxFit.cover)),
-          ),
-          Container(
-            padding: const EdgeInsets.only(top: 15),
-            width: 10000,
-            decoration: const BoxDecoration(
-              color: Color.fromARGB(255, 1, 25, 77),
-              borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
-            ),
-            child: Column(
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(bottom: 15),
-                  child: const Center(
-                    child: Text(
-                      'Creer un compte',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 22,
-                          decoration: TextDecoration.none),
-                    ),
-                  ),
-                ),
-                Container(
-                  width: 10000,
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(30)),
-                  ),
-                  child: Column(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(vertical: 4),
-                        margin: const EdgeInsets.symmetric(vertical: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              width: 30,
-                              height: 30,
-                              margin:
-                                  const EdgeInsets.symmetric(horizontal: 10),
-                              child: const Image(
-                                  image: AssetImage(
-                                'images/google.png',
-                              )),
-                            ),
-                            Container(
-                              width: 30,
-                              height: 30,
-                              margin:
-                                  const EdgeInsets.symmetric(horizontal: 10),
-                              child: const Image(
-                                  image: AssetImage(
-                                'images/facebook.png',
-                              )),
-                            )
-                          ],
-                        ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                        child: Form(
-                          key: _formKey,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Container(
-                                margin: const EdgeInsets.symmetric(vertical: 2),
-                                child: Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 3),
-                                  child: TextFormField(
-                                    decoration: const InputDecoration(
-                                      border: OutlineInputBorder(),
-                                      hintText: 'Nom',
-                                    ),
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        erreur.add(
-                                            "Entrez une valeur dans le champ nom");
-                                        return;
-                                      }
-                                      return null;
-                                    },
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                margin: const EdgeInsets.symmetric(vertical: 2),
-                                child: Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 3),
-                                  child: TextFormField(
-                                    decoration: const InputDecoration(
-                                      border: OutlineInputBorder(),
-                                      hintText: 'Email',
-                                    ),
-                                    validator: (value) {
-                                      EmailValidator.validate(value!);
-
-                                      if (value == null || value.isEmpty) {
-                                        erreur.add(
-                                            "Entrez une valeur dans le champ email");
-                                        return;
-                                      }
-                                      if (!EmailValidator.validate(value)) {
-                                        erreur.add("Entrez un email valide");
-                                        return;
-                                      }
-                                      return null;
-                                    },
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 5),
-                                child: TextFormField(
-                                  obscureText: true,
-                                  decoration: const InputDecoration(
-                                    border: OutlineInputBorder(),
-                                    hintText: 'Mot de passe',
-                                  ),
-                                  validator: (value) {
-                                    EmailValidator.validate(value!);
-                                    if (value == null || value.isEmpty) {
-                                      erreur.add(
-                                          "Entrez une valeur  dans le champ mot  de passe");
-                                      return;
-                                    }
-
-                                    if (value.length < 6) {
-                                      erreur.add(
-                                          "Entrez un mote de passe d'au moins 6 caractères");
-                                      return;
-                                    }
-                                    if (value.length >= 25) {
-                                      erreur.add(
-                                          "Entrez un mot de passe de moins de 25 caractères");
-                                      return;
-                                    }
-                                    if (!value.contains(RegExp(r'[A-Z]'))) {
-                                      erreur.add(
-                                          "Entrez un mot de passe contenant au moins une majuscule");
-                                      //return "Le mot de passe doit contenir au moins une majuscule";
-                                    }
-                                    if (!value.contains(RegExp(r'[0-9]'))) {
-                                      erreur.add(
-                                          "Entrez un mot de passe contenant au moins un chiffre");
-                                      //return "Le mot de passe doit contenir au moins un chiffre";
-                                    }
-                                    if (!value.contains(
-                                        RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
-                                      erreur.add(
-                                          "Entrez un mot de passe contenant au moins un caractère spécial");
-                                      //return "Le mot de passe doit contenir au moins un caractère spécial";
-                                    }
-                                    return null;
-                                  },
-                                ),
-                              ),
-                              Container(
-                                  width: 1000,
-                                  margin: const EdgeInsets.all(10),
-                                  decoration: const BoxDecoration(
-                                      // borderRadius: Border.symmetric(),
-                                      ),
-                                  child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      primary: const Color.fromARGB(
-                                          255, 191, 104, 12),
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 10.0),
-                                    ),
-                                    onPressed: () {
-                                      // if (_formKey.currentState!.validate()) {
-                                      if (erreur.isEmpty) {
-                                        print(erreur);
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const inscription_v()),
-                                        );
-                                      } else {
-                                        showMyAlertDialog(context);
-                                      }
-                                    },
-                                    child: const Text(
-                                      'Creer',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.normal,
-                                        decoration: TextDecoration.none,
-                                      ),
-                                    ),
-                                  )),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 15, left: 15, right: 15),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Text("J'ai un compte. ",
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 16,
-                                            decoration: TextDecoration.none)),
-                                    GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const connexion(
-                                                    title: 'connexion',
-                                                  )),
-                                        );
-                                      },
-                                      child: const Text(
-                                        "Se Connecter",
-                                        style: TextStyle(
-                                          color:
-                                              Color.fromARGB(255, 191, 104, 12),
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          decoration: TextDecoration.none,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                  padding: const EdgeInsets.all(15),
-                                  width: 75,
-                                  child: const Image(
-                                    image: AssetImage('images/plat_icon.png'),
-                                    fit: BoxFit.fill,
-                                  )),
-                            ],
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                )
-              ],
-            ),
-          )
-        ],
+      child: SingleChildScrollView(
+        //controller: controller,
+        child: Column(
+          children: [
+            avatar,
+            box_blue,
+          ],
+        ),
       ),
     );
   }
