@@ -1,14 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:json_annotation/json_annotation.dart';
-import 'package:provider/provider.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:json_annotation/json_annotation.dart';
+// import 'package:provider/provider.dart';
+// import 'package:firebase_core/firebase_core.dart';
+// import 'firebase_options.dart';
 import 'connexion.dart';
 import 'main.dart';
-import 'inscription_v.dart';
+// import 'inscription_v.dart';
+// import 'package:google_sign_in/google_sign_in.dart';
+
+// Future<UserCredential> signInWithGoogle() async {
+//   // Trigger the authentication flow
+//   final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
+
+//   // Obtain the auth details from the request
+//   final GoogleSignInAuthentication? googleAuth =
+//       await googleUser?.authentication;
+
+//   // Create a new credential
+//   final credential = GoogleAuthProvider.credential(
+//     accessToken: googleAuth?.accessToken,
+//     idToken: googleAuth?.idToken,
+//   );
+
+//   // Once signed in, return the UserCredential
+//   return await FirebaseAuth.instance.signInWithCredential(credential);
+// }
 
 class Inscriptio extends StatelessWidget {
   const Inscriptio({super.key, required this.title});
@@ -70,7 +89,7 @@ class MyCustomFormState extends State<MyCustomForm> {
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
-    List<String> data = [];
+    Map data = {};
 
     final avatar = Container(
       margin: const EdgeInsets.only(bottom: 10),
@@ -137,7 +156,7 @@ class MyCustomFormState extends State<MyCustomForm> {
             if (value == null || value.isEmpty) {
               return "Entrez une valeur dans le champ nom";
             }
-            data.add(value);
+            data['nom'] = value;
             return null;
           },
         ),
@@ -161,7 +180,7 @@ class MyCustomFormState extends State<MyCustomForm> {
             } else if (!EmailValidator.validate(value)) {
               return "Entrez un email valide";
             }
-            data.add(value!);
+            data['email'] = value;
             return null;
           },
         ),
@@ -197,7 +216,7 @@ class MyCustomFormState extends State<MyCustomForm> {
             //erreur.add("Entrez un mot de passe contenant au moins un caractère spécial");
             return "Le mot de passe doit contenir au moins un caractère spécial";
           }
-          data.add(value!);
+          data['mdp'] = value;
           return null;
         },
       ),
@@ -214,7 +233,7 @@ class MyCustomFormState extends State<MyCustomForm> {
             primary: const Color.fromARGB(255, 191, 104, 12),
             padding: const EdgeInsets.symmetric(vertical: 10.0),
           ),
-          onPressed: () {
+          onPressed: () async {
             if (_formKey.currentState!.validate()) {
               // auth.authStateChanges().listen((User? user) {
               //   if (user == null) {
@@ -223,13 +242,47 @@ class MyCustomFormState extends State<MyCustomForm> {
               //     print('User is signed in!');
               //   }
               // });
-              auth.idTokenChanges().listen((User? user) {
-                if (user == null) {
-                  print('User is currently signed out!');
-                } else {
-                  print('User is signed in!');
-                }
-              });
+
+              //inscription
+              // try {
+              //   final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+              //     email: data['email'],
+              //     password: data['mdp'],
+              //   );
+              // } on FirebaseAuthException catch (e) {
+              //   if (e.code == 'weak-password') {
+              //     print('The password provided is too weak.');
+              //   } else if (e.code == 'email-already-in-use') {
+              //     print('The account already exists for that email.');
+              //   }
+              // } catch (e) {
+              //   print(e);
+              // }
+
+              //connexion
+              // try {
+              //   final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+              //     email: 'mirabelbarryl@gmail.com',
+              //     password: 'Mirabel@1',
+              //   );
+              // } on FirebaseAuthException catch (e) {
+              //   if (e.code == 'user-not-found') {
+              //     print('No user found for that email.');
+              //   } else if (e.code == 'wrong-password') {
+              //     print('Wrong password provided for that user.');
+              //   }
+              // }
+              // final userC = signInWithGoogle();
+              // auth.idTokenChanges().listen((User? user) async {
+              //   if (user == null) {
+              //     print('User is currently signed out!');
+              //   } else {
+              //     await FirebaseAuth.instance.setLanguageCode("fr");
+              //     await user.sendEmailVerification();
+
+              //     print('User is signed in!');
+              //   }
+              // });
               // Navigator.push(
               //   context,
               //   MaterialPageRoute(builder: (context) => const inscription_v()),
