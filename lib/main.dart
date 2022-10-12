@@ -1,3 +1,4 @@
+// @dart=2.9
 import 'package:flutter/material.dart';
 import 'connexion.dart';
 import 'inscription.dart';
@@ -13,7 +14,7 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key});
+  const MyApp({Key key});
 
   // This widget is the root of your application.
   @override
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required title});
+  const MyHomePage({ Key key, String title}) : super(key: key);
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();

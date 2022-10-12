@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:firebase_core/firebase_core.dart';
 // import 'firebase_options.dart';
 import 'connexion.dart';
+import 'inscription_v.dart';
 import 'main.dart';
 // import 'inscription_v.dart';
 // import 'package:google_sign_in/google_sign_in.dart';
@@ -30,7 +31,7 @@ import 'main.dart';
 // }
 
 class Inscriptio extends StatelessWidget {
-  const Inscriptio({super.key, required this.title});
+  const Inscriptio({Key? key, required this.title});
   final String title;
 
   @override
@@ -283,10 +284,10 @@ class MyCustomFormState extends State<MyCustomForm> {
               //     print('User is signed in!');
               //   }
               // });
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(builder: (context) => const inscription_v()),
-              // );
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const inscription_v()),
+              );
             }
           },
           child: const Text(
