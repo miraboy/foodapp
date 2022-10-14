@@ -144,6 +144,7 @@ class _localisationState extends State<localisation> {
     );
 
     return MaterialApp(
+      title: 'Localisation',
       home: Scaffold(appBar: bar, body: all),
     );
   }

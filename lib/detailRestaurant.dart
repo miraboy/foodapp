@@ -271,7 +271,7 @@ class _detailRestaurantState extends State<detailRestaurant> {
 
     final program = Container(
       padding: const EdgeInsets.all(15),
-      width: largeurEcran * 0.65,
+      //width: largeurEcran * 0.65,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -280,13 +280,19 @@ class _detailRestaurantState extends State<detailRestaurant> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: const [
-              Text(
-                'Lundi-Vendredi',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15),
+                child: Text(
+                  'Lundi-Vendredi : ',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                ),
               ),
-              Text(
-                'Samedi',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15),
+                child: Text(
+                  'Samedi : ',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                ),
               ),
             ],
           ),
@@ -294,13 +300,19 @@ class _detailRestaurantState extends State<detailRestaurant> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: const [
-              Text(
-                '9h-18h',
-                style: TextStyle(fontSize: 20),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15),
+                child: Text(
+                  '9h-18h',
+                  style: TextStyle(fontSize: 20),
+                ),
               ),
-              Text(
-                '10h-15h',
-                style: TextStyle(fontSize: 20),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15),
+                child: Text(
+                  '10h-15h',
+                  style: TextStyle(fontSize: 20),
+                ),
               ),
             ],
           )
@@ -337,8 +349,16 @@ class _detailRestaurantState extends State<detailRestaurant> {
       ],
     );
 
+    final imgMaps = Container(
+        width: largeurEcran,
+        height: 400,
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage("images/cartes.png"), fit: BoxFit.cover),
+        ));
+
     final body = Container(
-      height: 700,
+      // height: 700,
       child: Row(
         children: [
           Column(
@@ -359,7 +379,8 @@ class _detailRestaurantState extends State<detailRestaurant> {
               ),
               description,
               program,
-             // maps
+              // maps
+              imgMaps
             ],
           )
         ],
@@ -370,8 +391,7 @@ class _detailRestaurantState extends State<detailRestaurant> {
       //controller: controller,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          body,bar],
+        children: [body],
       ),
     );
 
